@@ -12,10 +12,10 @@ RUN apt-get update && \
     pandoc \
     debhelper \
     libfuse-dev \
-    libattr1-dev && \
-  git clone https://github.com/trapexit/mergerfs.git && \
+    libattr1-dev
+RUN git clone https://github.com/trapexit/mergerfs.git && \
   cd mergerfs && \
   make clean && \
   make deb && \
-  mkdir /artifact/ && \
-  cp /*.deb /artifact/mergerfs-from-source.deb
+  mkdir /build/ && \
+  cp /*.deb /build/mergerfs-from-source.deb

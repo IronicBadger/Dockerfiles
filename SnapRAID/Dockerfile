@@ -1,7 +1,7 @@
 FROM debian:jessie
 MAINTAINER IronicBadger <ironicbadger@linuxserver.io>
 
-# TODO: Add ENV for version
+ENV SNAPRAID_VERSION="9.1"
 
 # Builds SnapRAID from source
 RUN apt-get update && \
@@ -11,13 +11,13 @@ RUN apt-get update && \
     git \
     make \
     checkinstall \
-    curl && \
-  curl -LO https://github.com/amadvance/snapraid/releases/download/v9.1/snapraid-9.1.tar.gz && \
-  tar -xvf snapraid-9.1.tar.gz && \
-  cd snapraid-9.1 && \
+    curl
+RUN curl -LO https://github.com/amadvance/snapraid/releases/download/v$SNAPRAID_VERSION/snapraid-$SNAPRAID_VERSION.tar.gz && \
+  tar -xvf snapraid-$SNAPRAID_VERSION.tar.gz && \
+  cd snapraid-$SNAPRAID_VERSION && \
   ./configure && \
   make -j8 && \
   make -j8 check && \
   checkinstall -Dy --install=no --nodoc && \
-  mkdir /artifact && \
-  cp *.deb /artifact/snapraid-from-source.deb
+  mkdir /build && \
+  cp *.deb /build/snapraid-from-source.deb
